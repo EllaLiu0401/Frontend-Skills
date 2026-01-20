@@ -6,6 +6,18 @@ A living documentation of frontend development learnings, best practices, and pa
 
 This repository serves as a personal knowledge base for frontend development insights. It captures lessons learned from PR reviews, refactoring experiences, and architectural decisions, with all examples generalized to be applicable across different projects.
 
+## ⚡ Quick Reference
+
+**需要快速查找规则？Need quick rule lookup?**
+
+→ **[Quick Reference Guide](docs/quick-reference/)** - 按问题类型快速查找编码规则
+
+常用规则速查 | Quick access to common rules:
+- [TypeScript Rules](docs/quick-reference/typescript-rules.md) - 类型推断、类型错误、泛型
+- [React Rules](docs/quick-reference/react-rules.md) - Hooks、性能、组件设计
+- [Code Quality Rules](docs/quick-reference/code-quality-rules.md) - 命名、函数大小、复杂度
+- [PR Review Checklist](docs/quick-reference/pr-review-checklist.md) - 完整的 PR 检查清单
+
 ## Quick Navigation
 
 ### Core Technologies
@@ -22,6 +34,7 @@ This repository serves as a personal knowledge base for frontend development ins
 - [Performance](docs/performance/) - Optimization techniques and profiling insights
 - [Testing](docs/testing/) - Testing strategies, patterns, and common pitfalls
 - [Accessibility](docs/accessibility/) - A11y best practices and WCAG compliance
+- [Best Practices](docs/best-practices/) - PR learnings, code quality rules, and reusable patterns
 
 ### Styling & Tooling
 - [Styling](docs/styling/) - CSS, Sass, CSS-in-JS, and design system patterns

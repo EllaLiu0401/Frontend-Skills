@@ -21,12 +21,27 @@ Select the most specific category that fits your learning:
 | `accessibility/` | ARIA, keyboard navigation, screen readers, WCAG compliance |
 | `styling/` | CSS, Sass, styled-components, Tailwind, design systems |
 | `build-tools/` | Webpack, Vite, Rollup, build optimization |
+| `best-practices/` | PR learnings, code quality rules, cross-cutting concerns |
 
 **Still unsure?** Choose the category where developers would most likely look for this information.
 
 ### Step 2: Select the Appropriate Template
 
-Choose one of three formats based on what you're documenting:
+Choose one of four formats based on what you're documenting:
+
+#### PR Notes Template (`templates/pr-notes.md`)
+**Use when**: You want to document learnings from a code review or PR.
+
+**Perfect for**:
+- PR review insights across multiple issues
+- Comprehensive code review findings
+- Cross-cutting concerns in a single PR
+- Reusable rules extracted from reviews
+
+**Example scenarios**:
+- "PR #123 - Dashboard refactoring learnings"
+- "PR #456 - API integration review findings"
+- "PR #789 - Performance optimization insights"
 
 #### Before/After Template (`templates/before-after.md`)
 **Use when**: You have a code improvement, refactoring, or bug fix to document.

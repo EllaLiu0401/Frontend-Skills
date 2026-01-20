@@ -11,6 +11,7 @@ This section covers React fundamentals and advanced patterns discovered through 
 ### Current Learnings
 
 - [useEffect Dependency Array Pitfalls](useeffect-dependency-array-pitfalls.md) - Common mistakes with useEffect dependencies and how to fix them
+- [UI-Behavior Synchronization](ui-behavior-synchronization.md) - Never ship interactive UI without working functionality
 
 ### Topics to Cover
 

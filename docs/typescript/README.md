@@ -8,9 +8,14 @@ This section focuses on leveraging TypeScript's type system effectively. It cove
 
 ## Contents
 
+### Current Learnings
+
+- [Type Inference Best Practices](type-inference-best-practices.md) - When to use type inference vs explicit annotations
+
+### Topics to Cover
+
 This directory will contain learnings about:
 
-- Type inference and explicit typing strategies
 - Generic patterns and constraints
 - Utility types and type transformations
 - Type guards and narrowing
