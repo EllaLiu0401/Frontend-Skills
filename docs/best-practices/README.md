@@ -6,11 +6,16 @@ Key learnings and best practices extracted from code reviews, refactoring experi
 
 This section captures actionable insights from real-world development, organized as quick reference guides for common pitfalls and best practices.
 
+## Architecture & Organization
+
+- **[Frontend Project Structure](frontend-project-structure.md)** - Best practices for organizing utilities, services, and integrations. Learn when to use `utils/` vs `services/` vs `integrations/` and how to enforce conventions with ESLint.
+
 ## PR Notes
 
 Condensed lessons from code reviews:
 
 - [PR-0161: Dashboard Foundation](pr-0161-dashboard-foundation.md) - Type inference, dead code, and UI triggers
+- [Handling Incomplete Routes and Navigation](pr-handling-incomplete-routes-and-navigation.md) - Disabling vs removing UI, navigation bug fixes, test cleanup
 - [React Props: Readonly & Immutability](react-props-readonly-immutability.md) - Enforcing props immutability with TypeScript readonly
 
 ## Categories
@@ -19,6 +24,7 @@ Condensed lessons from code reviews:
 - Unused code detection and cleanup
 - Type inference vs explicit annotations
 - Code organization and structure
+- Project structure conventions and enforcement
 
 ### UI/UX Patterns
 - Trigger-behavior synchronization

@@ -8,7 +8,11 @@ This section covers JavaScript fundamentals and advanced concepts that form the 
 
 ## Contents
 
-This directory will contain learnings about:
+### Guides
+
+- **[Number Formatting: Handling Rounding Edge Cases](./number-formatting-edge-cases.md)** - Learn how to properly handle edge cases when formatting numbers with K/M suffixes, including the common "1000.0K" bug and how to fix it with comprehensive testing strategies.
+
+### Topics to Cover
 
 - Modern JavaScript (ES6+) features and patterns
 - Async/await and Promise handling

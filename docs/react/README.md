@@ -12,6 +12,7 @@ This section covers React fundamentals and advanced patterns discovered through 
 
 - [useEffect Dependency Array Pitfalls](useeffect-dependency-array-pitfalls.md) - Common mistakes with useEffect dependencies and how to fix them
 - [UI-Behavior Synchronization](ui-behavior-synchronization.md) - Never ship interactive UI without working functionality
+- [Dashboard Metrics Component Design](dashboard-metrics-component-design.md) - Best practices for designing data-intensive dashboard components with metrics, formatting, and accessibility
 
 ### Topics to Cover
 

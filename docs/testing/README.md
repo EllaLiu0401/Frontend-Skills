@@ -8,7 +8,12 @@ This section covers approaches to testing frontend code effectively. It includes
 
 ## Contents
 
-This directory will contain learnings about:
+### Published Guides
+
+- [Testing Semantic Behavior Not Implementation](testing-semantic-behavior-not-implementation.md) - Focus on user-facing behavior
+- [Test Cleanup After Refactoring](test-cleanup-after-refactoring.md) - Removing obsolete mocks, imports, and test cases
+
+### Topics to Cover
 
 - Unit testing patterns
 - Integration testing strategies
