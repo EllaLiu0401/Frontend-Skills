@@ -31,10 +31,11 @@ This section covers approaches to testing frontend code effectively. It includes
 ## Getting Started
 
 If you're new to this section, start with:
+
 1. Basic component testing patterns
 2. Mocking API calls
 3. Testing user interactions
 
 ---
 
-*As you add entries, update this README with links to specific learnings.*
+_As you add entries, update this README with links to specific learnings._
