@@ -52,34 +52,34 @@ const unusedFunction = () => {};
 ```typescript
 // ✅ Good: 描述性命名
 const isUserLoggedIn = checkAuthStatus();
-const filteredActiveUsers = users.filter(u => u.isActive);
-function calculateTotalPrice(items: Item[]): number { }
+const filteredActiveUsers = users.filter((u) => u.isActive);
+function calculateTotalPrice(items: Item[]): number {}
 
 // ❌ Bad: 模糊命名
 const flag = checkAuthStatus();
-const arr = users.filter(u => u.isActive);
-function calc(items: Item[]): number { }
+const arr = users.filter((u) => u.isActive);
+function calc(items: Item[]): number {}
 ```
 
 ### Naming Conventions
 
 ```typescript
 // Variables & Functions: camelCase
-const userName = 'Alice';
-function getUserById(id: string) { }
+const userName = "Alice";
+function getUserById(id: string) {}
 
 // Components & Classes: PascalCase
-function UserProfile() { }
-class ApiService { }
+function UserProfile() {}
+class ApiService {}
 
 // Constants: UPPER_SNAKE_CASE
 const MAX_RETRY_COUNT = 3;
-const API_BASE_URL = 'https://api.example.com';
+const API_BASE_URL = "https://api.example.com";
 
 // Private: prefix with _
 class Service {
   private _cache = new Map();
-  private _fetchData() { }
+  private _fetchData() {}
 }
 
 // Boolean: prefix with is/has/should/can
@@ -101,24 +101,24 @@ const canEdit = false;
 // ❌ Bad: 做太多事情
 function processUserData(user: User) {
   // 验证
-  if (!user.email) throw new Error('No email');
-  
+  if (!user.email) throw new Error("No email");
+
   // 转换
   const normalized = user.email.toLowerCase();
-  
+
   // 保存
   database.save({ ...user, email: normalized });
-  
+
   // 发送邮件
   emailService.sendWelcome(user.email);
-  
+
   // 记录日志
-  logger.info('User processed', user.id);
+  logger.info("User processed", user.id);
 }
 
 // ✅ Good: 拆分职责
 function validateUser(user: User) {
-  if (!user.email) throw new Error('No email');
+  if (!user.email) throw new Error("No email");
 }
 
 function normalizeEmail(email: string): string {
@@ -138,7 +138,7 @@ function processUser(user: User) {
   const normalizedUser = { ...user, email: normalizeEmail(user.email) };
   saveUser(normalizedUser);
   sendWelcomeEmail(normalizedUser.email);
-  logger.info('User processed', user.id);
+  logger.info("User processed", user.id);
 }
 ```
 
@@ -158,10 +158,10 @@ function processOrder(order: Order) {
 }
 
 // ✅ Good: 拆分成小函数
-function validateOrder(order: Order) { }
-function calculateTotal(order: Order): number { }
-function applyDiscount(total: number, code: string): number { }
-function createInvoice(order: Order, total: number): Invoice { }
+function validateOrder(order: Order) {}
+function calculateTotal(order: Order): number {}
+function applyDiscount(total: number, code: string): number {}
+function createInvoice(order: Order, total: number): Invoice {}
 
 function processOrder(order: Order) {
   validateOrder(order);
@@ -200,7 +200,7 @@ function processUser(user: User | null) {
   if (!user.isActive) return null;
   if (!user.hasPermission) return null;
   if (!user.email) return null;
-  
+
   return sendEmail(user.email);
 }
 ```
@@ -216,16 +216,16 @@ function processUser(user: User | null) {
 ```typescript
 // ❌ Bad: 重复逻辑
 function formatUserName(user: User) {
-  return user.firstName + ' ' + user.lastName;
+  return user.firstName + " " + user.lastName;
 }
 
 function displayUser(user: User) {
-  const name = user.firstName + ' ' + user.lastName;
+  const name = user.firstName + " " + user.lastName;
   console.log(name);
 }
 
 function saveUser(user: User) {
-  const fullName = user.firstName + ' ' + user.lastName;
+  const fullName = user.firstName + " " + user.lastName;
   database.save({ ...user, fullName });
 }
 
@@ -258,14 +258,16 @@ function saveUser(user: User) {
 ```typescript
 // ❌ Bad: Magic numbers
 function retryRequest() {
-  for (let i = 0; i < 3; i++) { // 3 是什么？
+  for (let i = 0; i < 3; i++) {
+    // 3 是什么？
     setTimeout(() => {
       fetch(url);
     }, 1000 * i); // 1000 是什么？
   }
 }
 
-if (user.age > 18) { // 18 是什么意思？
+if (user.age > 18) {
+  // 18 是什么意思？
   allowAccess();
 }
 
@@ -322,16 +324,16 @@ function calculateDiscount(items: Item[]): number {
   // - 11-50 件: 10% 折扣
   // - 51+ 件: 20% 折扣
   // 业务需求: TICKET-1234
-  
+
   let discount = 0;
   const count = items.length;
-  
+
   if (count > 50) {
     discount = 0.2;
   } else if (count > 10) {
     discount = 0.1;
   }
-  
+
   return discount;
 }
 ```
@@ -343,17 +345,13 @@ function calculateDiscount(items: Item[]): number {
 function processData(data: Data) {
   // const oldWay = data.map(x => x * 2);
   // return oldWay.filter(x => x > 10);
-  
-  return data
-    .map(x => x * 2)
-    .filter(x => x > 10);
+
+  return data.map((x) => x * 2).filter((x) => x > 10);
 }
 
 // ✅ Good: 删除注释掉的代码
 function processData(data: Data) {
-  return data
-    .map(x => x * 2)
-    .filter(x => x > 10);
+  return data.map((x) => x * 2).filter((x) => x > 10);
 }
 ```
 
@@ -367,14 +365,14 @@ function processData(data: Data) {
 
 ```typescript
 // ❌ Bad: 模糊的错误
-throw new Error('Invalid input');
-throw new Error('Error');
-throw new Error('Failed');
+throw new Error("Invalid input");
+throw new Error("Error");
+throw new Error("Failed");
 
 // ✅ Good: 具体的错误信息
-throw new Error('Email format is invalid: missing @ symbol');
-throw new Error('User ID must be a positive integer, got: ' + userId);
-throw new Error('Failed to fetch user data: network timeout after 5s');
+throw new Error("Email format is invalid: missing @ symbol");
+throw new Error("User ID must be a positive integer, got: " + userId);
+throw new Error("Failed to fetch user data: network timeout after 5s");
 ```
 
 ### ✅ DO: 包含上下文
@@ -384,9 +382,7 @@ throw new Error('Failed to fetch user data: network timeout after 5s');
 try {
   await processOrder(orderId);
 } catch (error) {
-  throw new Error(
-    `Failed to process order ${orderId}: ${error.message}`
-  );
+  throw new Error(`Failed to process order ${orderId}: ${error.message}`);
 }
 ```
 
@@ -401,19 +397,19 @@ try {
 ```typescript
 // ✅ Good: 分组导入
 // React
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // Third-party
-import { format } from 'date-fns';
-import axios from 'axios';
+import { format } from "date-fns";
+import axios from "axios";
 
 // Internal
-import { Button } from '@/components/Button';
-import { useAuth } from '@/hooks/useAuth';
-import { formatCurrency } from '@/utils/format';
+import { Button } from "@/components/Button";
+import { useAuth } from "@/hooks/useAuth";
+import { formatCurrency } from "@/utils/format";
 
 // Types
-import type { User, Order } from '@/types';
+import type { User, Order } from "@/types";
 
 // Constants
 const MAX_ITEMS = 100;
@@ -430,19 +426,19 @@ export function OrderList() {
 ```typescript
 // ❌ Bad: 多个组件在一个文件
 // components.tsx
-export function Button() { }
-export function Input() { }
-export function Form() { }
+export function Button() {}
+export function Input() {}
+export function Form() {}
 
 // ✅ Good: 每个组件一个文件
 // Button.tsx
-export function Button() { }
+export function Button() {}
 
 // Input.tsx
-export function Input() { }
+export function Input() {}
 
 // Form.tsx
-export function Form() { }
+export function Form() {}
 ```
 
 **Rule**: 文件结构清晰，便于查找和维护
@@ -459,52 +455,82 @@ function getStatus(user: User) {
   if (user.isActive) {
     if (user.isPremium) {
       if (user.hasSubscription) {
-        return 'premium-active';
+        return "premium-active";
       } else {
-        return 'premium-inactive';
+        return "premium-inactive";
       }
     } else {
       if (user.isTrial) {
-        return 'trial';
+        return "trial";
       } else {
-        return 'basic';
+        return "basic";
       }
     }
   } else {
-    return 'inactive';
+    return "inactive";
   }
 }
 
 // ✅ Good: 降低复杂度
 function getStatus(user: User) {
-  if (!user.isActive) return 'inactive';
+  if (!user.isActive) return "inactive";
   if (user.isPremium) {
-    return user.hasSubscription ? 'premium-active' : 'premium-inactive';
+    return user.hasSubscription ? "premium-active" : "premium-inactive";
   }
-  return user.isTrial ? 'trial' : 'basic';
+  return user.isTrial ? "trial" : "basic";
 }
 
 // ✅ Better: 使用查找表
 const STATUS_MAP = {
-  'active-premium-subscribed': 'premium-active',
-  'active-premium-not-subscribed': 'premium-inactive',
-  'active-not-premium-trial': 'trial',
-  'active-not-premium-not-trial': 'basic',
-  'not-active': 'inactive'
+  "active-premium-subscribed": "premium-active",
+  "active-premium-not-subscribed": "premium-inactive",
+  "active-not-premium-trial": "trial",
+  "active-not-premium-not-trial": "basic",
+  "not-active": "inactive",
 };
 
 function getStatus(user: User) {
   const key = [
-    user.isActive ? 'active' : 'not-active',
-    user.isPremium ? 'premium' : 'not-premium',
-    user.hasSubscription ? 'subscribed' : 'not-subscribed'
-  ].join('-');
-  
-  return STATUS_MAP[key] || 'unknown';
+    user.isActive ? "active" : "not-active",
+    user.isPremium ? "premium" : "not-premium",
+    user.hasSubscription ? "subscribed" : "not-subscribed",
+  ].join("-");
+
+  return STATUS_MAP[key] || "unknown";
 }
 ```
 
 **Rule**: 圈复杂度 < 10，理想 < 5
+
+---
+
+## Template Literals
+
+### ❌ DON'T: Nest template literals
+
+```typescript
+// ❌ Bad: Nested template literals
+const message = `User ${userId} is ${status ? `currently ${status}` : "unknown"}`;
+const greeting = `Hello, ${user ? `${user.name || "Guest"}` : "Stranger"}!`;
+
+// ✅ Good: Extract to variables
+const statusText = status ? `currently ${status}` : "unknown";
+const message = `User ${userId} is ${statusText}`;
+
+const displayName = user?.name || "Guest";
+const greeting = user ? `Hello, ${displayName}!` : "Hello, Stranger!";
+
+// ✅ Best: Use functions for complex logic
+function getGreeting(user?: User): string {
+  if (!user) return "Hello, Stranger!";
+  const name = user.name || "Guest";
+  return `Hello, ${name}!`;
+}
+```
+
+**Rule**: If you nest template literals, refactor to variables or functions
+
+**Reference**: [Template Literals Best Practices](../javascript/template-literals-best-practices.md)
 
 ---
 
@@ -518,6 +544,7 @@ function getStatus(user: User) {
 - [ ] 是否使用了提前返回？
 - [ ] 是否有重复代码？
 - [ ] Magic numbers 是否命名了？
+- [ ] 是否避免了嵌套模板字符串？
 - [ ] 注释是否必要且清晰？
 - [ ] 错误消息是否具体？
 - [ ] 文件组织是否合理？

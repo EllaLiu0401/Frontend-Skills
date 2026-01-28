@@ -10,6 +10,10 @@ This section captures actionable insights from real-world development, organized
 
 - **[Frontend Project Structure](frontend-project-structure.md)** - Best practices for organizing utilities, services, and integrations. Learn when to use `utils/` vs `services/` vs `integrations/` and how to enforce conventions with ESLint.
 
+## Internationalization (i18n)
+
+- **[Comprehensive i18n Audit](i18n-comprehensive-audit.md)** - Systematic approach to ensuring complete internationalization coverage. Learn how to identify hardcoded strings, implement proper i18n patterns, and maintain translations across multiple locales.
+
 ## PR Notes
 
 Condensed lessons from code reviews:
@@ -21,17 +25,21 @@ Condensed lessons from code reviews:
 ## Categories
 
 ### Code Quality
+
 - Unused code detection and cleanup
 - Type inference vs explicit annotations
 - Code organization and structure
 - Project structure conventions and enforcement
+- Internationalization auditing and enforcement
 
 ### UI/UX Patterns
+
 - Trigger-behavior synchronization
 - Progressive enhancement
 - User feedback patterns
 
 ### Type Safety
+
 - When to use type inference
 - Avoiding redundant generics
 - Type system best practices
@@ -74,4 +82,4 @@ Common patterns from PR reviews:
 
 ---
 
-*As you conduct PR reviews, extract and document key learnings here.*
+_As you conduct PR reviews, extract and document key learnings here._

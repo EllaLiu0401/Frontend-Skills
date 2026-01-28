@@ -9,9 +9,12 @@ This is a quick reference organized by problem types. Find the rules you need wh
 ## 📋 目录 | Table of Contents
 
 ### 🚀 快速开始 | Quick Start
+
 - **[Cheatsheet](./cheatsheet.md)** - 一页纸速查手册，打印或保存！
+- **[i18n Checklist](./i18n-checklist.md)** - Internationalization quick reference and audit commands
 
 ### 📚 完整规则 | Complete Rules
+
 - [Common Mistakes Checklist](#common-mistakes-checklist) - 常见错误检查清单
 - [By Problem Type](#by-problem-type) - 按问题类型查找
 - [By Technology](#by-technology) - 按技术栈查找
@@ -24,6 +27,7 @@ This is a quick reference organized by problem types. Find the rules you need wh
 在提交PR前，检查这些常见问题：
 
 ### ⚡ 性能问题 | Performance
+
 - [ ] 是否有不必要的重渲染？
 - [ ] 是否正确使用了 `useMemo` / `useCallback`？
 - [ ] 大列表是否使用了虚拟化？
@@ -32,6 +36,7 @@ This is a quick reference organized by problem types. Find the rules you need wh
 **详见**: [Performance Rules](./performance-rules.md)
 
 ### 🔧 TypeScript 问题 | TypeScript
+
 - [ ] 是否过度使用显式类型注解？（应该让类型推断工作）
 - [ ] 是否正确处理了 `null` / `undefined`？
 - [ ] 泛型参数是否必要？
@@ -40,6 +45,7 @@ This is a quick reference organized by problem types. Find the rules you need wh
 **详见**: [TypeScript Rules](./typescript-rules.md)
 
 ### ⚛️ React 问题 | React
+
 - [ ] `useEffect` 依赖数组是否正确？
 - [ ] 所有交互元素是否有实际功能？
 - [ ] 是否有未使用的组件或props？
@@ -48,6 +54,7 @@ This is a quick reference organized by problem types. Find the rules you need wh
 **详见**: [React Rules](./react-rules.md)
 
 ### 🎨 代码质量 | Code Quality
+
 - [ ] 是否有未使用的代码（imports、变量、函数）？
 - [ ] 命名是否清晰且符合规范？
 - [ ] 是否有重复代码可以提取？
@@ -55,7 +62,17 @@ This is a quick reference organized by problem types. Find the rules you need wh
 
 **详见**: [Code Quality Rules](./code-quality-rules.md)
 
+### 🌍 国际化 | Internationalization
+
+- [ ] 是否有硬编码的用户可见文本？
+- [ ] aria-label 是否使用了 i18n？
+- [ ] 时间/日期格式是否国际化？
+- [ ] 是否更新了所有语言文件？
+
+**详见**: [i18n Checklist](./i18n-checklist.md)
+
 ### 🐛 错误处理 | Error Handling
+
 - [ ] 异步操作是否有错误处理？
 - [ ] 是否有用户友好的错误提示？
 - [ ] 是否有错误边界（Error Boundary）？
@@ -70,37 +87,49 @@ This is a quick reference organized by problem types. Find the rules you need wh
 ### 🚨 我遇到这些问题... | When I see...
 
 #### "组件一直重新渲染" | Component keeps re-rendering
+
 → [React Performance Rules](./react-rules.md#performance-optimization)
+
 - Check `useMemo` / `useCallback` usage
 - Check if creating new objects/functions in render
 - Check parent component re-renders
 
 #### "TypeScript 报类型错误" | TypeScript type errors
+
 → [TypeScript Rules](./typescript-rules.md#type-errors)
+
 - Check if inference can handle it
 - Check null/undefined handling
 - Check union types
 
 #### "useEffect 行为不符合预期" | useEffect not working as expected
+
 → [React Rules](./react-rules.md#useeffect-rules)
+
 - Check dependency array
 - Check cleanup function
 - Check execution timing
 
 #### "点击按钮没反应" | Button click doesn't work
+
 → [React Rules](./react-rules.md#ui-behavior-sync)
+
 - Check event handler exists
 - Check event handler implementation
 - Check if disabled correctly
 
 #### "代码太复杂难以维护" | Code is too complex
+
 → [Code Quality Rules](./code-quality-rules.md#complexity)
+
 - Check function size
 - Check nesting levels
 - Check abstraction opportunities
 
 #### "API 调用失败但没提示" | API fails without feedback
+
 → [Error Handling Rules](./error-handling-rules.md#api-errors)
+
 - Check error boundaries
 - Check error state handling
 - Check user feedback
@@ -110,9 +139,11 @@ This is a quick reference organized by problem types. Find the rules you need wh
 ## By Technology
 
 ### TypeScript
+
 **[Complete TypeScript Rules →](./typescript-rules.md)**
 
 Quick rules:
+
 1. 让类型推断工作，避免冗余注解
 2. 优先使用 `interface` 定义对象类型
 3. 使用 `strict: true` 配置
@@ -121,9 +152,11 @@ Quick rules:
 **Source**: [Type Inference Best Practices](../typescript/type-inference-best-practices.md)
 
 ### React
+
 **[Complete React Rules →](./react-rules.md)**
 
 Quick rules:
+
 1. `useEffect` 依赖数组必须完整
 2. 交互元素必须有工作的功能
 3. 清理副作用（订阅、定时器）
@@ -132,18 +165,22 @@ Quick rules:
 **Source**: [UI-Behavior Synchronization](../react/ui-behavior-synchronization.md), [useEffect Dependency Array Pitfalls](../react/useeffect-dependency-array-pitfalls.md)
 
 ### Performance
+
 **[Complete Performance Rules →](./performance-rules.md)**
 
 Quick rules:
+
 1. 使用 React DevTools Profiler 测量
 2. `useMemo` 用于昂贵计算
 3. `useCallback` 用于传递给子组件的函数
 4. 虚拟化长列表
 
 ### Code Quality
+
 **[Complete Code Quality Rules →](./code-quality-rules.md)**
 
 Quick rules:
+
 1. 删除未使用的代码
 2. 函数保持简短（< 50 行）
 3. 单一职责原则
@@ -156,24 +193,28 @@ Quick rules:
 ### Before Submitting PR
 
 #### 基础检查 | Basic
+
 - [ ] Linter 无错误
 - [ ] 所有测试通过
 - [ ] 无 console.log / debugger
 - [ ] 无注释掉的代码
 
 #### 功能检查 | Functionality
+
 - [ ] 所有交互元素都能工作
 - [ ] 错误情况有正确处理
 - [ ] 加载状态有显示
 - [ ] 边界情况已测试
 
 #### 代码质量 | Code Quality
+
 - [ ] 无未使用的 imports/variables
 - [ ] 无重复代码
 - [ ] 命名清晰
 - [ ] 复杂逻辑有注释
 
 #### 性能 | Performance
+
 - [ ] 无不必要的重渲染
 - [ ] 大数据集使用虚拟化
 - [ ] 图片已优化
@@ -186,6 +227,7 @@ Quick rules:
 ## Quick Tips by Scenario
 
 ### 写新组件时 | When Creating New Component
+
 ```
 1. 定义 Props interface
 2. 实现基本渲染
@@ -196,6 +238,7 @@ Quick rules:
 ```
 
 ### 重构代码时 | When Refactoring
+
 ```
 1. 确保有测试覆盖
 2. 小步骤重构
@@ -205,6 +248,7 @@ Quick rules:
 ```
 
 ### 修复 Bug 时 | When Fixing Bugs
+
 ```
 1. 重现问题
 2. 找到根本原因
@@ -215,6 +259,7 @@ Quick rules:
 ```
 
 ### Review PR 时 | When Reviewing PR
+
 ```
 1. 理解改动目的
 2. 检查功能正确性
@@ -275,15 +320,19 @@ Quick rules:
 ## 如何使用这个参考手册 | How to Use This Guide
 
 ### 场景 1: 写代码前
+
 浏览相关技术的规则页面，记住关键原则
 
 ### 场景 2: 遇到问题
+
 使用 [By Problem Type](#by-problem-type) 快速找到解决方案
 
 ### 场景 3: PR Review
+
 使用 [Code Review Checklist](#code-review-checklist) 系统检查
 
 ### 场景 4: 学习提升
+
 阅读完整的规则文档，理解背后的原理
 
 ---
