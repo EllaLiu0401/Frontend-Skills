@@ -12,6 +12,7 @@ This is a quick reference organized by problem types. Find the rules you need wh
 
 - **[Cheatsheet](./cheatsheet.md)** - 一页纸速查手册，打印或保存！
 - **[i18n Checklist](./i18n-checklist.md)** - Internationalization quick reference and audit commands
+- **[Authentication Checklist](./authentication-checklist.md)** - Security checklist for authentication implementation
 
 ### 📚 完整规则 | Complete Rules
 
@@ -79,6 +80,15 @@ This is a quick reference organized by problem types. Find the rules you need wh
 - [ ] 是否记录了关键错误？
 
 **详见**: [Error Handling Rules](./error-handling-rules.md)
+
+### 🔐 安全与认证 | Security & Authentication
+
+- [ ] 是否有服务端认证检查？
+- [ ] 是否依赖客户端认证（不安全）？
+- [ ] 认证重定向是否正确？
+- [ ] 是否测试了未认证访问情况？
+
+**详见**: [Authentication Checklist](./authentication-checklist.md)
 
 ---
 
