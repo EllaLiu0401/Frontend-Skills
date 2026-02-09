@@ -9,12 +9,12 @@
 ```typescript
 // ✅ Good
 const [count, setCount] = useState(0);
-const items = ['a', 'b', 'c'];
+const items = ["a", "b", "c"];
 const double = (x: number) => x * 2;
 
 // ❌ Bad: 冗余注解
 const [count, setCount] = useState<number>(0);
-const items: string[] = ['a', 'b', 'c'];
+const items: string[] = ["a", "b", "c"];
 const double = (x: number): number => x * 2;
 ```
 
@@ -35,6 +35,7 @@ const [items, setItems] = useState<Item[]>([]);
 ```
 
 **When to add explicit types:**
+
 - Union types (e.g., `User | null`)
 - Empty arrays/objects
 - Function parameters (always)
@@ -60,7 +61,7 @@ interface User {
 const user = { id: 1 }; // ❌ Missing 'name'
 
 // 解决方案 1: 添加缺失字段
-const user: User = { id: 1, name: 'Alice' };
+const user: User = { id: 1, name: "Alice" };
 
 // 解决方案 2: 使用 Partial
 const user: Partial<User> = { id: 1 };
@@ -87,9 +88,46 @@ function greet(user: User | null) {
 
 // ✅ Solution 3: Nullish coalescing
 function greet(user: User | null) {
-  return user?.name ?? 'Guest';
+  return user?.name ?? "Guest";
 }
 ```
+
+#### Optional Properties: Check for Both `null` and `undefined`
+
+```typescript
+interface Config {
+  timeout?: number; // Type: number | undefined
+}
+
+// ❌ Wrong: Only checks null
+const config: Config = {};
+if (config.timeout !== null) {
+  // Bug! This runs even when timeout is undefined
+  const delay = config.timeout * 1000;
+}
+
+// ✅ Correct: Checks both null and undefined
+if (config.timeout != null) {
+  // Only runs when timeout has a value
+  const delay = config.timeout * 1000;
+}
+
+// ✅ Alternative: Optional chaining
+const delay = config.timeout != null ? config.timeout * 1000 : 0;
+
+// ✅ Also good: Nullish coalescing
+const delay = (config.timeout ?? 0) * 1000;
+```
+
+**Key point**: Optional properties (`property?: type`) can be:
+
+- The actual type value
+- `null` (if explicitly set)
+- `undefined` (if omitted)
+
+Use `!= null` to exclude **both** `null` and `undefined`.
+
+**Reference**: [Null vs Undefined Checking](../javascript/null-vs-undefined-checking.md)
 
 #### Error: "Property 'X' does not exist on type 'Y'"
 
@@ -140,7 +178,7 @@ function process<T extends { value: string }>(data: T) {
 
 // ✅ Option 3: unknown (如果真的不知道类型)
 function process(data: unknown) {
-  if (typeof data === 'object' && data !== null && 'value' in data) {
+  if (typeof data === "object" && data !== null && "value" in data) {
     return (data as { value: string }).value;
   }
 }
@@ -169,11 +207,11 @@ function useState<T>(initial: T) {
 ```typescript
 // ❌ Bad: 冗余泛型
 useState<number>(0);
-useState<string>('');
+useState<string>("");
 
 // ✅ Good: 推断
 useState(0);
-useState('');
+useState("");
 ```
 
 **Rule**: 只在需要类型参数化时使用泛型
@@ -201,7 +239,7 @@ interface Admin extends User {
 
 ```typescript
 // ✅ Unions
-type Status = 'idle' | 'loading' | 'success' | 'error';
+type Status = "idle" | "loading" | "success" | "error";
 
 // ✅ Intersections
 type UserWithTimestamp = User & { createdAt: Date };
@@ -228,7 +266,7 @@ function getUser(id: string): User | null {
 }
 
 // ✅ Good: 使用时检查
-const user = getUser('123');
+const user = getUser("123");
 if (user) {
   console.log(user.name);
 }
@@ -260,10 +298,10 @@ function getUser(id?: string): User | null {
 // ✅ Good: 使用类型谓词
 function isUser(value: unknown): value is User {
   return (
-    typeof value === 'object' &&
+    typeof value === "object" &&
     value !== null &&
-    'id' in value &&
-    'name' in value
+    "id" in value &&
+    "name" in value
   );
 }
 
@@ -279,7 +317,7 @@ function process(data: unknown) {
 
 ```typescript
 // typeof
-if (typeof value === 'string') {
+if (typeof value === "string") {
   value.toUpperCase();
 }
 
@@ -289,13 +327,13 @@ if (error instanceof Error) {
 }
 
 // in operator
-if ('name' in user) {
+if ("name" in user) {
   console.log(user.name);
 }
 
 // Array.isArray
 if (Array.isArray(value)) {
-  value.map(x => x);
+  value.map((x) => x);
 }
 ```
 
@@ -309,7 +347,7 @@ if (Array.isArray(value)) {
 // ❌ Bad
 const user: User = {
   id: 1,
-  name: 'Alice',
+  name: "Alice",
 };
 const users: User[] = [user];
 const count: number = users.length;
@@ -317,7 +355,7 @@ const count: number = users.length;
 // ✅ Good
 const user = {
   id: 1,
-  name: 'Alice',
+  name: "Alice",
 } as User; // 或者不加类型，让推断工作
 const users = [user];
 const count = users.length;
@@ -347,7 +385,7 @@ function process(user: User) {
 
 // ✅ Good
 function process(user: User | null) {
-  return user?.name.toUpperCase() ?? 'Unknown';
+  return user?.name.toUpperCase() ?? "Unknown";
 }
 ```
 
@@ -366,10 +404,10 @@ type PartialUser = Partial<User>;
 type RequiredUser = Required<PartialUser>;
 
 // Pick - 选择部分属性
-type UserPreview = Pick<User, 'id' | 'name'>;
+type UserPreview = Pick<User, "id" | "name">;
 
 // Omit - 排除部分属性
-type UserWithoutId = Omit<User, 'id'>;
+type UserWithoutId = Omit<User, "id">;
 
 // Record - 创建对象类型
 type UserMap = Record<string, User>;
@@ -388,14 +426,14 @@ type Result = ReturnType<typeof fetchUser>;
 ```json
 {
   "compilerOptions": {
-    "strict": true,                  // ✅ 必须
-    "noImplicitAny": true,          // ✅ 必须
-    "strictNullChecks": true,       // ✅ 必须
-    "strictFunctionTypes": true,    // ✅ 必须
-    "noUnusedLocals": true,         // ✅ 推荐
-    "noUnusedParameters": true,     // ✅ 推荐
-    "noImplicitReturns": true,      // ✅ 推荐
-    "noFallthroughCasesInSwitch": true  // ✅ 推荐
+    "strict": true, // ✅ 必须
+    "noImplicitAny": true, // ✅ 必须
+    "strictNullChecks": true, // ✅ 必须
+    "strictFunctionTypes": true, // ✅ 必须
+    "noUnusedLocals": true, // ✅ 推荐
+    "noUnusedParameters": true, // ✅ 推荐
+    "noImplicitReturns": true, // ✅ 推荐
+    "noFallthroughCasesInSwitch": true // ✅ 推荐
   }
 }
 ```

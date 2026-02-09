@@ -8,7 +8,11 @@ This section explores various approaches to state management beyond React's buil
 
 ## Contents
 
-This directory will contain learnings about:
+### Core Concepts
+
+- **[Async State Race Conditions](async-state-race-conditions.md)** - Understanding and avoiding race conditions when state updates are asynchronous
+
+### Planned Topics
 
 - Redux patterns and best practices
 - Zustand usage and patterns
@@ -23,10 +27,11 @@ This directory will contain learnings about:
 ## Getting Started
 
 If you're new to this section, start with:
+
 1. When to use global state vs component state
 2. State normalization patterns
 3. Selector patterns and memoization
 
 ---
 
-*As you add entries, update this README with links to specific learnings.*
+_As you add entries, update this README with links to specific learnings._

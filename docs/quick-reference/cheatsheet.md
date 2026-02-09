@@ -9,33 +9,37 @@
 ## TypeScript 精华 | TypeScript Essentials
 
 ### 类型推断优先 | Inference First
+
 ```typescript
 // ✅ 推断
-useState(0)
-useState<User | null>(null)  // Union 需要显式
+useState(0);
+useState<User | null>(null); // Union 需要显式
 
 // ❌ 冗余
-useState<number>(0)
+useState<number>(0);
 ```
 
 ### 避免 any | Avoid any
+
 ```typescript
 // ✅ 用 unknown
 function handle(data: unknown) {
-  if (typeof data === 'string') { }
+  if (typeof data === "string") {
+  }
 }
 
 // ❌ 不要用 any
-function handle(data: any) { }
+function handle(data: any) {}
 ```
 
 ### Null 处理 | Null Handling
+
 ```typescript
 // ✅ Optional chaining
-user?.profile?.name
+user?.profile?.name;
 
 // ✅ Nullish coalescing
-const name = user?.name ?? 'Guest'
+const name = user?.name ?? "Guest";
 ```
 
 ---
@@ -43,6 +47,7 @@ const name = user?.name ?? 'Guest'
 ## React 精华 | React Essentials
 
 ### useEffect 依赖 | useEffect Dependencies
+
 ```typescript
 // ✅ 完整依赖
 useEffect(() => {
@@ -57,9 +62,10 @@ useEffect(() => {
 ```
 
 ### 性能优化 | Performance
+
 ```typescript
 // useMemo: 昂贵计算
-const sorted = useMemo(() => 
+const sorted = useMemo(() =>
   items.sort((a, b) => a - b),
   [items]
 );
@@ -74,14 +80,15 @@ const Child = React.memo(({ data }) => <div>{data}</div>);
 ```
 
 ### 状态更新 | State Updates
+
 ```typescript
 // ✅ 不可变更新
-setItems([...items, newItem])
-setUser({ ...user, name: 'New' })
+setItems([...items, newItem]);
+setUser({ ...user, name: "New" });
 
 // ❌ 不要直接修改
-items.push(newItem)
-user.name = 'New'
+items.push(newItem);
+user.name = "New";
 ```
 
 ---
@@ -89,9 +96,10 @@ user.name = 'New'
 ## 代码质量 | Code Quality
 
 ### 命名规范 | Naming
+
 ```typescript
 // Variables/Functions: camelCase
-const userName = 'Alice'
+const userName = "Alice";
 function getUserData() {}
 
 // Components/Classes: PascalCase
@@ -99,46 +107,48 @@ function UserProfile() {}
 class ApiService {}
 
 // Constants: UPPER_SNAKE_CASE
-const MAX_RETRY = 3
-const API_URL = 'https://...'
+const MAX_RETRY = 3;
+const API_URL = "https://...";
 
 // Boolean: is/has/should/can
-const isLoading = true
-const hasError = false
+const isLoading = true;
+const hasError = false;
 ```
 
 ### 函数原则 | Function Rules
+
 ```typescript
 // ✅ 简短 (< 50 行)
 // ✅ 单一职责
 // ✅ 提前返回
 function process(user: User | null) {
-  if (!user) return null
-  if (!user.active) return null
-  return user.name
+  if (!user) return null;
+  if (!user.active) return null;
+  return user.name;
 }
 
 // ❌ 嵌套太深
 function process(user: User | null) {
   if (user) {
     if (user.active) {
-      return user.name
+      return user.name;
     }
   }
 }
 ```
 
 ### 删除冗余 | Remove Redundant
+
 ```typescript
 // ❌ 未使用的代码
-import { unused } from 'lib'
-const unusedVar = 'hello'
+import { unused } from "lib";
+const unusedVar = "hello";
 
 // ❌ 注释掉的代码
 // const oldCode = () => {}
 
 // ❌ console.log
-console.log('debug')
+console.log("debug");
 
 // ✅ 全部删除
 ```
@@ -148,6 +158,7 @@ console.log('debug')
 ## 错误处理 | Error Handling
 
 ### 异步错误 | Async Errors
+
 ```typescript
 // ✅ try-catch
 try {
@@ -169,6 +180,7 @@ fetchData()
 ```
 
 ### 用户反馈 | User Feedback
+
 ```typescript
 // ✅ 加载状态
 {isLoading && <Spinner />}
@@ -182,39 +194,73 @@ toast.success('Saved successfully!')
 
 ---
 
+## 数据验证 | Data Validation
+
+### 日期验证 | Date Validation
+
+```typescript
+// ❌ 不安全 - 可能显示 "Invalid Date"
+const label = new Date(apiData.date).toLocaleDateString();
+
+// ✅ 安全 - 验证后再格式化
+let label = "Unknown";
+if (apiData.date) {
+  const date = new Date(apiData.date);
+  if (!Number.isNaN(date.getTime())) {
+    label = date.toLocaleDateString();
+  }
+}
+
+// ⚠️ 使用 Number.isNaN，不是 isNaN (ESLint)
+```
+
+---
+
 ## 常见错误 | Common Mistakes
 
 ### ❌ 空的事件处理
+
 ```typescript
 <button onClick={() => {}}>Click</button>
 // 应该: 实现功能或隐藏按钮
 ```
 
 ### ❌ 缺少依赖
+
 ```typescript
 useEffect(() => {
-  fetchData(userId)
-}, []) // 应该: [userId]
+  fetchData(userId);
+}, []); // 应该: [userId]
 ```
 
 ### ❌ 忘记清理
+
 ```typescript
 useEffect(() => {
-  const timer = setInterval(() => {}, 1000)
+  const timer = setInterval(() => {}, 1000);
   // 应该: return () => clearInterval(timer)
-}, [])
+}, []);
 ```
 
 ### ❌ 渲染中创建对象
+
 ```typescript
 <Child config={{ theme: 'dark' }} />
 // 应该: useMemo
 ```
 
 ### ❌ 过度注解类型
+
 ```typescript
-const [count, setCount] = useState<number>(0)
+const [count, setCount] = useState<number>(0);
 // 应该: useState(0)
+```
+
+### ❌ 不验证日期
+
+```typescript
+new Date(apiData.date).toLocaleDateString();
+// 应该: 先用 Number.isNaN(date.getTime()) 验证
 ```
 
 ---
@@ -222,6 +268,7 @@ const [count, setCount] = useState<number>(0)
 ## PR 检查清单 | PR Checklist
 
 ### 提交前 | Before Submit
+
 - [ ] Lint 通过
 - [ ] 类型检查通过
 - [ ] 测试通过
@@ -230,18 +277,21 @@ const [count, setCount] = useState<number>(0)
 - [ ] 实际运行并测试
 
 ### 功能 | Functionality
+
 - [ ] 交互元素有功能
 - [ ] 错误处理完善
 - [ ] 加载状态显示
 - [ ] 边界情况测试
 
 ### 代码 | Code
+
 - [ ] 命名清晰
 - [ ] 函数简短
 - [ ] 无重复代码
 - [ ] 注释适当
 
 ### React | React
+
 - [ ] useEffect 依赖完整
 - [ ] 副作用已清理
 - [ ] 性能优化合理
@@ -251,6 +301,7 @@ const [count, setCount] = useState<number>(0)
 ## 决策树 | Decision Trees
 
 ### 何时使用 useMemo?
+
 ```
 计算是否昂贵? (排序、过滤、复杂计算)
   └─ 是 → 使用 useMemo
@@ -260,6 +311,7 @@ const [count, setCount] = useState<number>(0)
 ```
 
 ### 何时使用 useCallback?
+
 ```
 函数是否传给子组件?
   └─ 是 → 子组件是否 memo?
@@ -271,6 +323,7 @@ const [count, setCount] = useState<number>(0)
 ```
 
 ### 何时显式类型注解?
+
 ```
 TypeScript 能推断吗?
   └─ 能 → 不需要注解
@@ -287,12 +340,14 @@ TypeScript 能推断吗?
 ## 快速链接 | Quick Links
 
 ### 详细规则 | Detailed Rules
+
 - [TypeScript Rules](./typescript-rules.md)
 - [React Rules](./react-rules.md)
 - [Code Quality Rules](./code-quality-rules.md)
 - [PR Review Checklist](./pr-review-checklist.md)
 
 ### 学习资源 | Learning
+
 - [Type Inference](../typescript/type-inference-best-practices.md)
 - [useEffect Pitfalls](../react/useeffect-dependency-array-pitfalls.md)
 - [UI-Behavior Sync](../react/ui-behavior-synchronization.md)
@@ -308,10 +363,11 @@ TypeScript 能推断吗?
 4. **删除未使用代码** - Remove unused code
 5. **清理副作用** - Cleanup effects
 6. **处理所有错误** - Handle all errors
-7. **函数要简短** - Keep functions short
-8. **命名要清晰** - Name things clearly
-9. **避免重复** - DRY principle
-10. **提前返回** - Early returns
+7. **验证外部数据** - Validate dates/API data
+8. **函数要简短** - Keep functions short
+9. **命名要清晰** - Name things clearly
+10. **避免重复** - DRY principle
+11. **提前返回** - Early returns
 
 ---
 

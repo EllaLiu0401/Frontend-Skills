@@ -10,6 +10,14 @@ This section captures actionable insights from real-world development, organized
 
 - **[Frontend Project Structure](frontend-project-structure.md)** - Best practices for organizing utilities, services, and integrations. Learn when to use `utils/` vs `services/` vs `integrations/` and how to enforce conventions with ESLint.
 
+## Data Handling
+
+- **[Data Filtering and Transformation](data-filtering-and-transformation.md)** - Critical patterns for data transformation pipelines. Learn why premature filtering causes data loss, how to handle null values correctly, and when to filter vs format data.
+
+## User Experience (UX)
+
+- **[Handling Incomplete UI Features](handling-incomplete-ui-features.md)** - Best practices for managing features that aren't ready yet. Learn why empty onClick handlers are UX bugs, when to remove vs disable UI elements, and how to avoid confusing users with non-functional interfaces.
+
 ## Internationalization (i18n)
 
 - **[Comprehensive i18n Audit](i18n-comprehensive-audit.md)** - Systematic approach to ensuring complete internationalization coverage. Learn how to identify hardcoded strings, implement proper i18n patterns, and maintain translations across multiple locales.
@@ -18,6 +26,7 @@ This section captures actionable insights from real-world development, organized
 
 Condensed lessons from code reviews:
 
+- [PR: UX & Accessibility Fixes](pr-ux-and-accessibility-fixes.md) - Empty onClick handlers and semantic HTML heading hierarchy
 - [PR-0161: Dashboard Foundation](pr-0161-dashboard-foundation.md) - Type inference, dead code, and UI triggers
 - [Handling Incomplete Routes and Navigation](pr-handling-incomplete-routes-and-navigation.md) - Disabling vs removing UI, navigation bug fixes, test cleanup
 - [React Props: Readonly & Immutability](react-props-readonly-immutability.md) - Enforcing props immutability with TypeScript readonly
@@ -32,11 +41,20 @@ Condensed lessons from code reviews:
 - Project structure conventions and enforcement
 - Internationalization auditing and enforcement
 
+### Data Handling
+
+- Data transformation pipelines
+- Null value handling
+- Filter placement in transformation chains
+- Edge case testing
+
 ### UI/UX Patterns
 
 - Trigger-behavior synchronization
 - Progressive enhancement
 - User feedback patterns
+- Handling incomplete features
+- Empty onClick handlers and user confusion
 
 ### Type Safety
 

@@ -209,6 +209,131 @@ function processUser(user: User | null) {
 
 ---
 
+## Null/Undefined Checks
+
+### ✅ DO: Use `!= null` for optional properties
+
+```typescript
+interface Data {
+  value?: string; // Optional property
+}
+
+// ❌ Bad: Only checks null, not undefined
+const data: Data = {};
+if (data.value !== null) {
+  // Bug! This runs even when value is undefined
+  console.log(data.value.toUpperCase());
+}
+
+// ✅ Good: Checks both null and undefined
+if (data.value != null) {
+  // Only runs when value has a real value
+  console.log(data.value.toUpperCase());
+}
+```
+
+### Array Filtering
+
+```typescript
+const values: (string | null | undefined)[] = ["a", null, "b", undefined, "c"];
+
+// ❌ Bad: Still includes undefined
+const wrong = values.filter((v) => v !== null);
+// Result: ['a', 'b', undefined, 'c']
+
+// ✅ Good: Removes both null and undefined
+const correct = values.filter((v) => v != null);
+// Result: ['a', 'b', 'c']
+```
+
+### Common Pattern
+
+```typescript
+// ✅ Checking if optional value exists
+function processUser(user: { name?: string }) {
+  if (user.name != null) {
+    // Safe to use user.name
+    return user.name.toUpperCase();
+  }
+  return "UNKNOWN";
+}
+```
+
+**Rule**: Use `!= null` to check for both `null` and `undefined` with optional properties
+
+**Reference**: [Null vs Undefined Checking](../javascript/null-vs-undefined-checking.md)
+
+---
+
+## Date Validation
+
+### ✅ DO: Always validate dates before formatting
+
+```typescript
+// ❌ Bad: No validation, may display "Invalid Date"
+const label = new Date(apiData.timestamp).toLocaleDateString();
+
+// ❌ Bad: Only checks for null/undefined
+const label = apiData.timestamp
+  ? new Date(apiData.timestamp).toLocaleDateString()
+  : "Unknown";
+
+// ✅ Good: Validate with Number.isNaN(date.getTime())
+let label = "Unknown";
+
+if (apiData.timestamp) {
+  const date = new Date(apiData.timestamp);
+  if (!Number.isNaN(date.getTime())) {
+    label = date.toLocaleDateString();
+  }
+}
+```
+
+### Why validate dates?
+
+Invalid date strings return an `Invalid Date` object (not `null`):
+
+```typescript
+const invalid = new Date("not-a-date");
+console.log(invalid); // Invalid Date
+console.log(typeof invalid); // "object" (not null!)
+console.log(invalid.toLocaleDateString()); // "Invalid Date" (bad UX)
+```
+
+### Reusable pattern
+
+```typescript
+function formatDateSafely(dateString: string | null | undefined): string {
+  if (!dateString) return "Unknown";
+
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) {
+    console.warn(`Invalid date: ${dateString}`);
+    return "Unknown";
+  }
+
+  return date.toLocaleDateString();
+}
+```
+
+### Why `Number.isNaN()` not `isNaN()`?
+
+```typescript
+// ❌ Bad: Global isNaN has type coercion
+isNaN("hello"); // true (coerces to NaN)
+isNaN(undefined); // true
+
+// ✅ Good: Number.isNaN is precise
+Number.isNaN("hello"); // false (not actually NaN)
+Number.isNaN(NaN); // true
+```
+
+**Rule**: Always validate external dates with `Number.isNaN(date.getTime())` before formatting
+
+**Reference**: [Date Validation Best Practices](../javascript/date-validation-defensive-programming.md)
+
+---
+
 ## DRY (Don't Repeat Yourself)
 
 ### ✅ DO: 提取重复代码
@@ -542,6 +667,8 @@ function getGreeting(user?: User): string {
 - [ ] 命名是否清晰？
 - [ ] 函数是否足够简短？
 - [ ] 是否使用了提前返回？
+- [ ] 可选属性检查是否使用了 `!= null`？
+- [ ] 日期格式化前是否验证了有效性？
 - [ ] 是否有重复代码？
 - [ ] Magic numbers 是否命名了？
 - [ ] 是否避免了嵌套模板字符串？

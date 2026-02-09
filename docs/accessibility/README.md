@@ -8,7 +8,13 @@ This section focuses on making applications accessible to all users, including t
 
 ## Contents
 
-This directory will contain learnings about:
+### Guides
+
+- **[Semantic HTML: Heading Hierarchy](semantic-html-heading-hierarchy.md)** - Master proper heading structure (`<h1>` through `<h6>`). Learn why pages should have exactly one h1, how screen readers use headings for navigation, and how to build accessible React components with correct heading levels.
+
+### Topics
+
+This directory also contains learnings about:
 
 - WCAG compliance (A, AA, AAA levels)
 - ARIA attributes and when to use them
@@ -26,10 +32,11 @@ This directory will contain learnings about:
 ## Getting Started
 
 If you're new to this section, start with:
+
 1. Semantic HTML basics
 2. Keyboard navigation requirements
 3. ARIA labels and descriptions
 
 ---
 
-*As you add entries, update this README with links to specific learnings.*
+_As you add entries, update this README with links to specific learnings._

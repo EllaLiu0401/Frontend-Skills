@@ -20,6 +20,8 @@
 
 - [ ] **功能完整**: PR 描述的所有功能都已实现
 - [ ] **交互可用**: 所有按钮、链接、表单都有工作的功能
+- [ ] **无空点击**: 没有空的 onClick handlers（点击无反应）
+- [ ] **未完成功能**: 未完成的功能应移除或禁用，不要展示给用户
 - [ ] **边界情况**: 测试了空数据、错误状态、极限值
 - [ ] **错误处理**: 所有异步操作都有错误处理
 - [ ] **加载状态**: 异步操作显示加载指示器
@@ -34,6 +36,7 @@
 - [ ] **无重复代码**: 提取了重复逻辑
 - [ ] **注释适当**: 复杂逻辑有注释说明
 - [ ] **类型安全**: 避免 `any`，正确处理 `null`/`undefined`
+- [ ] **日期验证**: 格式化日期前用 `Number.isNaN(date.getTime())` 验证
 - [ ] **一致性**: 遵循项目代码风格
 
 ### ⚛️ React 特定 | React-Specific
@@ -72,6 +75,7 @@
 
 - [ ] **键盘导航**: 可以用键盘操作所有交互元素
 - [ ] **语义化 HTML**: 使用正确的 HTML 标签
+- [ ] **标题层级**: 每页只有一个 h1，section 使用 h2，不跳级
 - [ ] **ARIA 属性**: 需要时添加 ARIA 属性
 - [ ] **颜色对比**: 文字和背景有足够对比度
 - [ ] **屏幕阅读器**: 重要内容对屏幕阅读器友好
@@ -97,30 +101,35 @@
 ### 第二步: 代码审查 | Code Review
 
 #### 正确性 | Correctness
+
 - [ ] 逻辑是否正确？
 - [ ] 是否处理了边界情况？
 - [ ] 是否有潜在的 bug？
 - [ ] 错误处理是否充分？
 
 #### 代码质量 | Code Quality
+
 - [ ] 代码是否清晰易懂？
 - [ ] 命名是否恰当？
 - [ ] 是否有重复代码？
 - [ ] 复杂度是否合理？
 
 #### 架构设计 | Architecture
+
 - [ ] 设计是否合理？
 - [ ] 是否符合项目架构？
 - [ ] 是否有更好的实现方式？
 - [ ] 是否考虑了扩展性？
 
 #### 性能影响 | Performance Impact
+
 - [ ] 是否有性能问题？
 - [ ] 是否有不必要的计算/渲染？
 - [ ] 数据结构是否高效？
 - [ ] 是否有潜在的内存泄漏？
 
 #### 测试覆盖 | Test Coverage
+
 - [ ] 是否有足够的测试？
 - [ ] 测试是否覆盖了主要场景？
 - [ ] 测试是否有意义？
@@ -140,6 +149,7 @@
 #### 好的反馈示例 | Good Feedback
 
 ✅ **具体且建设性**:
+
 ```
 这个函数有点长(80行)，建议拆分成:
 1. validateInput()
@@ -150,6 +160,7 @@
 ```
 
 ✅ **解释原因**:
+
 ```
 建议使用 useCallback 包装 handleClick，
 因为它传给了 React.memo 包装的子组件，
@@ -157,6 +168,7 @@
 ```
 
 ✅ **提供替代方案**:
+
 ```
 这里用 for 循环有点复杂，可以考虑:
 const result = items
@@ -165,6 +177,7 @@ const result = items
 ```
 
 ❌ **避免模糊反馈**:
+
 ```
 这段代码不好
 命名有问题
@@ -195,16 +208,16 @@ const result = items
 
 ```typescript
 // ❌ 冗余的泛型
-useState<number>(0)
+useState<number>(0);
 
 // ❌ 使用 any
-const data: any = response
+const data: any = response;
 
 // ❌ 没处理 null
-user.name.toUpperCase() // user 可能是 null
+user.name.toUpperCase(); // user 可能是 null
 
 // ❌ 不必要的类型断言
-const value = data as string
+const value = data as string;
 ```
 
 ### React 问题
@@ -224,6 +237,11 @@ useEffect(() => {
 // ❌ 渲染中创建函数
 <Child onClick={() => {}} />
 
+// ❌ 空的 onClick handler（用户点击无反应）
+<Button onClick={() => {/* TODO */}}>
+  Notifications (3)
+</Button>
+
 // ❌ 直接修改状态
 items.push(newItem);
 setItems(items);
@@ -233,13 +251,13 @@ setItems(items);
 
 ```typescript
 // ❌ 未使用的导入
-import { unused } from 'lib';
+import { unused } from "lib";
 
 // ❌ 注释掉的代码
 // const oldCode = () => {};
 
 // ❌ console.log
-console.log('debug');
+console.log("debug");
 
 // ❌ Magic number
 setTimeout(fn, 5000); // 5000 是什么？
@@ -248,6 +266,49 @@ setTimeout(fn, 5000); // 5000 是什么？
 function bigFunction() {
   // 200 行代码...
 }
+```
+
+### Data Filtering Issues
+
+```typescript
+// ❌ Filtering nulls before formatter handles them
+const data = items
+  .filter((item) => item.value !== null) // Removes legitimate null values
+  .map((item) => ({
+    name: formatValue(item.value), // formatValue handles null!
+    count: item.count,
+  }));
+
+// ✅ Let formatter handle null values
+const data = items.map((item) => ({
+  name: formatValue(item.value), // Returns "Unknown" for null
+  count: item.count,
+}));
+
+// Check: Does the formatter handle null/undefined?
+function formatValue(value: string | null): string {
+  if (!value) return "Unknown"; // If yes, don't filter upstream!
+  return value;
+}
+```
+
+**Watch for**: Filters removing null/undefined before functions that explicitly handle those values.
+
+### HTML 语义问题
+
+```tsx
+// ❌ 一个页面有多个 h1
+<h1>Page Title</h1>
+<section>
+  <h1>Section Title</h1> {/* 应该用 h2 */}
+</section>
+
+// ❌ 跳过标题级别
+<h1>Main Title</h1>
+<h4>Subsection</h4> {/* 跳过了 h2 和 h3 */}
+
+// ❌ 用标题标签来调整样式
+<h5>Big Text</h5> {/* 不是真正的标题，只是想要小字体 */}
 ```
 
 ### 性能问题
@@ -280,12 +341,14 @@ const sorted = items.sort(...); // 每次渲染都排序
 ## 审查工具 | Review Tools
 
 ### 浏览器工具
+
 - React DevTools: 检查组件层级和性能
 - Redux DevTools: 检查状态变化
 - Network Tab: 检查 API 调用
 - Console: 检查错误和警告
 
 ### 命令行工具
+
 ```bash
 # 类型检查
 npm run type-check
@@ -304,6 +367,7 @@ npm run analyze
 ```
 
 ### GitHub/GitLab 功能
+
 - 逐文件审查
 - 批量评论
 - 建议改动
@@ -319,26 +383,31 @@ npm run analyze
 ## Review Checklist
 
 ### 基础
+
 - [ ] Linter 通过
 - [ ] 类型检查通过
 - [ ] 测试通过
 
 ### 功能
+
 - [ ] 功能完整可用
 - [ ] 错误处理完善
 - [ ] 边界情况已测试
 
 ### 代码质量
+
 - [ ] 无未使用代码
 - [ ] 命名清晰
 - [ ] 无重复逻辑
 
 ### React/TypeScript
+
 - [ ] useEffect 依赖正确
 - [ ] 类型推断合理
 - [ ] 无性能问题
 
 ### 其他
+
 - [ ] 已实际运行测试
 - [ ] 无安全问题
 - [ ] 文档已更新(如需要)

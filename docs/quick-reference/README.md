@@ -63,6 +63,15 @@ This is a quick reference organized by problem types. Find the rules you need wh
 
 **详见**: [Code Quality Rules](./code-quality-rules.md)
 
+### 📊 数据处理 | Data Handling
+
+- [ ] 过滤数据前，是否确认下游函数不处理 null 值？
+- [ ] 格式化函数是否正确处理 null/undefined？
+- [ ] 聚合结果是否包含所有合法数据？
+- [ ] 是否测试了 null 值的边界情况？
+
+**详见**: [Data Filtering & Transformation](../best-practices/data-filtering-and-transformation.md)
+
 ### 🌍 国际化 | Internationalization
 
 - [ ] 是否有硬编码的用户可见文本？
@@ -143,6 +152,15 @@ This is a quick reference organized by problem types. Find the rules you need wh
 - Check error boundaries
 - Check error state handling
 - Check user feedback
+
+#### "数据统计总数对不上" | Data totals don't match
+
+→ [Data Filtering & Transformation](../best-practices/data-filtering-and-transformation.md)
+
+- Check if filtering nulls before formatters
+- Check if formatters handle null/undefined
+- Check if aggregations include all data
+- Add tests for null values
 
 ---
 
@@ -283,7 +301,7 @@ Quick rules:
 
 ## 最常用的规则 | Most Important Rules
 
-### Top 10 Rules to Remember
+### Top Rules to Remember
 
 1. **类型推断优先** | Type Inference First
    - 让 TypeScript 推断类型，避免冗余注解
@@ -324,6 +342,10 @@ Quick rules:
 10. **提前返回** | Early Returns
     - 用 early return 减少嵌套
     - [详细说明](./code-quality-rules.md#early-returns)
+
+11. **理解数据流再过滤** | Understand Data Flow Before Filtering
+    - 别在格式化函数前过滤 null 值
+    - [详细说明](../best-practices/data-filtering-and-transformation.md)
 
 ---
 

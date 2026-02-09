@@ -18,8 +18,8 @@ const handleClick = useCallback(() => {
 }, [count]); // count 被使用了
 
 useEffect(() => {
-  element.addEventListener('click', handleClick);
-  return () => element.removeEventListener('click', handleClick);
+  element.addEventListener("click", handleClick);
+  return () => element.removeEventListener("click", handleClick);
 }, [handleClick]); // handleClick 被使用了
 ```
 
@@ -52,27 +52,26 @@ useEffect(() => {
 // ✅ Good: 清理定时器
 useEffect(() => {
   const timer = setInterval(() => {
-    console.log('tick');
+    console.log("tick");
   }, 1000);
-  
+
   return () => clearInterval(timer);
 }, []);
 
 // ✅ Good: 清理事件监听
 useEffect(() => {
-  const handler = () => console.log('resize');
-  window.addEventListener('resize', handler);
-  
-  return () => window.removeEventListener('resize', handler);
+  const handler = () => console.log("resize");
+  window.addEventListener("resize", handler);
+
+  return () => window.removeEventListener("resize", handler);
 }, []);
 
 // ✅ Good: 取消请求
 useEffect(() => {
   const abortController = new AbortController();
-  
-  fetch('/api/data', { signal: abortController.signal })
-    .then(handleData);
-  
+
+  fetch("/api/data", { signal: abortController.signal }).then(handleData);
+
   return () => abortController.abort();
 }, []);
 ```
@@ -83,14 +82,14 @@ useEffect(() => {
 // ❌ Bad: 定时器泄漏
 useEffect(() => {
   setInterval(() => {
-    console.log('tick');
+    console.log("tick");
   }, 1000);
   // 忘记清理！组件卸载后定时器还在运行
 }, []);
 
 // ❌ Bad: 事件监听泄漏
 useEffect(() => {
-  window.addEventListener('resize', handleResize);
+  window.addEventListener("resize", handleResize);
   // 忘记清理！
 }, []);
 ```
@@ -161,14 +160,20 @@ const sortedItems = useMemo(() => {
 const doubled = useMemo(() => count * 2, [count]); // 过度优化
 
 // ✅ Good: 复杂对象使用 useMemo
-const config = useMemo(() => ({
-  theme: 'dark',
-  size: 'large',
-  options: complexCalculation()
-}), [/* deps */]);
+const config = useMemo(
+  () => ({
+    theme: "dark",
+    size: "large",
+    options: complexCalculation(),
+  }),
+  [
+    /* deps */
+  ],
+);
 ```
 
 **When to use useMemo:**
+
 - 昂贵的计算（循环、排序、过滤大数组）
 - 创建的对象会传给优化过的子组件
 - 依赖数组变化不频繁
@@ -193,6 +198,7 @@ const handleClick = useCallback(() => {
 ```
 
 **When to use useCallback:**
+
 - 传递给使用 `React.memo` 的子组件
 - 作为 useEffect 的依赖
 - 传递给第三方库（性能敏感）
@@ -213,6 +219,7 @@ const SimpleText = React.memo(({ text }) => {
 ```
 
 **When to use React.memo:**
+
 - 组件渲染成本高
 - 相同 props 频繁重渲染
 - 组件在列表中
@@ -227,9 +234,9 @@ const SimpleText = React.memo(({ text }) => {
 // ✅ Good: 单一职责
 function UserProfile({ userId }: Props) {
   const user = useUser(userId);
-  
+
   if (!user) return <Loading />;
-  
+
   return (
     <div>
       <UserAvatar user={user} />
@@ -260,11 +267,13 @@ function Dashboard() {
 function useUserData(userId: string) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
-    fetchUser(userId).then(setUser).finally(() => setLoading(false));
+    fetchUser(userId)
+      .then(setUser)
+      .finally(() => setLoading(false));
   }, [userId]);
-  
+
   return { user, loading };
 }
 
@@ -275,6 +284,7 @@ function UserProfile({ userId }: Props) {
 ```
 
 **When to extract hook:**
+
 - 相同逻辑在多个组件使用
 - 组件内逻辑超过 20 行
 - 状态管理逻辑复杂
@@ -282,6 +292,36 @@ function UserProfile({ userId }: Props) {
 ---
 
 ## State Management
+
+### ✅ DO: Pass values directly to avoid race conditions
+
+```typescript
+// ❌ Bad: Uses stale state
+const [date, setDate] = useState(new Date());
+
+const handlePreset = () => {
+  const newDate = getPresetDate();
+  setDate(newDate); // Async!
+  fetchData(); // Uses OLD date!
+};
+
+// ✅ Good: Pass new value directly
+const handlePreset = () => {
+  const newDate = getPresetDate();
+  setDate(newDate);
+  fetchData(newDate); // Uses NEW date
+};
+
+// ✅ Good: Accept override parameters
+const fetchData = (overrideDate?: Date) => {
+  const finalDate = overrideDate ?? date;
+  api.get({ date: finalDate });
+};
+```
+
+**Rule**: React state updates are async - never rely on state immediately after setting it
+
+**Source**: [Async State Race Conditions](../state-management/async-state-race-conditions.md)
 
 ### ✅ DO: 选择合适的状态类型
 
@@ -344,10 +384,10 @@ function UserCard(props) {
 
 ```typescript
 // ✅ Good
-function Button({ 
-  variant = 'primary', 
+function Button({
+  variant = 'primary',
   size = 'medium',
-  children 
+  children
 }: Props) {
   return <button className={`btn-${variant}-${size}`}>{children}</button>;
 }
@@ -393,15 +433,15 @@ const UserContext = createContext();
 // ✅ Good
 class ErrorBoundary extends React.Component {
   state = { hasError: false };
-  
+
   static getDerivedStateFromError(error) {
     return { hasError: true };
   }
-  
+
   componentDidCatch(error, errorInfo) {
     logError(error, errorInfo);
   }
-  
+
   render() {
     if (this.state.hasError) {
       return <ErrorFallback />;
@@ -423,13 +463,13 @@ class ErrorBoundary extends React.Component {
 function UserProfile({ userId }: Props) {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     fetchUser(userId)
       .then(setUser)
       .catch(setError);
   }, [userId]);
-  
+
   if (error) return <ErrorMessage error={error} />;
   if (!user) return <Loading />;
   return <div>{user.name}</div>;
@@ -481,12 +521,12 @@ setItems(items);
 setItems([...items, newItem]);
 
 // ❌ Bad
-const [user, setUser] = useState({ name: 'Alice' });
-user.name = 'Bob'; // 不要直接修改！
+const [user, setUser] = useState({ name: "Alice" });
+user.name = "Bob"; // 不要直接修改！
 setUser(user);
 
 // ✅ Good
-setUser({ ...user, name: 'Bob' });
+setUser({ ...user, name: "Bob" });
 ```
 
 ### ❌ 错误 3: 过度使用 useEffect
@@ -495,11 +535,11 @@ setUser({ ...user, name: 'Bob' });
 // ❌ Bad: 不需要 effect
 function Component({ value }: Props) {
   const [doubled, setDoubled] = useState(value * 2);
-  
+
   useEffect(() => {
     setDoubled(value * 2);
   }, [value]);
-  
+
   return <div>{doubled}</div>;
 }
 
@@ -516,6 +556,7 @@ function Component({ value }: Props) {
 
 写 React 代码时检查：
 
+- [ ] 是否避免了 async state 竞态条件？
 - [ ] useEffect 依赖数组是否完整？
 - [ ] 是否清理了副作用？
 - [ ] 交互元素是否有功能？
@@ -529,6 +570,7 @@ function Component({ value }: Props) {
 
 ## Related
 
+- [Async State Race Conditions](../state-management/async-state-race-conditions.md)
 - [useEffect Dependency Array Pitfalls](../react/useeffect-dependency-array-pitfalls.md)
 - [UI-Behavior Synchronization](../react/ui-behavior-synchronization.md)
 - [PR-0161](../best-practices/pr-0161-dashboard-foundation.md)
