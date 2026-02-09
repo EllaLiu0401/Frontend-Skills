@@ -8,6 +8,12 @@ This section covers strategies for handling errors gracefully in frontend applic
 
 ## Contents
 
+### Available Documents
+
+- **[Global Error Handling Architecture](./global-error-handling-architecture.md)** - Comprehensive guide to building centralized error handling pipelines with TanStack Query, including anti-patterns, best practices, and implementation examples.
+
+### Topics to Cover
+
 This directory will contain learnings about:
 
 - Error boundary implementation and patterns
@@ -18,7 +24,6 @@ This directory will contain learnings about:
 - Fallback UI patterns
 - Network error handling
 - Form validation error patterns
-- Global error handling
 - Error recovery strategies
 
 ## Getting Started

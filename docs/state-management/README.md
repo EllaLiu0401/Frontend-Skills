@@ -11,6 +11,7 @@ This section explores various approaches to state management beyond React's buil
 ### Core Concepts
 
 - **[Async State Race Conditions](async-state-race-conditions.md)** - Understanding and avoiding race conditions when state updates are asynchronous
+- **[Conditional Queries in React Query](conditional-queries-react-query.md)** - Using the `enabled` option to control when queries execute, preventing unnecessary API calls and errors
 
 ### Planned Topics
 
