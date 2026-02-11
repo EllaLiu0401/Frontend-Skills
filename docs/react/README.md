@@ -10,6 +10,7 @@ This section covers React fundamentals and advanced patterns discovered through 
 
 ### Current Learnings
 
+- **[Rules of Hooks](rules-of-hooks.md)** - Critical: Why conditional hook calls break React and how to fix them
 - [useEffect Dependency Array Pitfalls](useeffect-dependency-array-pitfalls.md) - Common mistakes with useEffect dependencies and how to fix them
 - [UI-Behavior Synchronization](ui-behavior-synchronization.md) - Never ship interactive UI without working functionality
 - [Dashboard Metrics Component Design](dashboard-metrics-component-design.md) - Best practices for designing data-intensive dashboard components with metrics, formatting, and accessibility
@@ -31,9 +32,10 @@ This directory will contain learnings about:
 ## Getting Started
 
 If you're new to this section, start with:
-1. useEffect dependency arrays
-2. When to use useCallback and useMemo
-3. Component composition patterns
+1. **Rules of Hooks** (critical foundation - must read first!)
+2. useEffect dependency arrays
+3. When to use useCallback and useMemo
+4. Component composition patterns
 
 ---
 
