@@ -16,6 +16,8 @@ This section covers JavaScript fundamentals and advanced concepts that form the 
 
 - **[Date Validation: Defensive Programming](./date-validation-defensive-programming.md)** - Always validate dates before formatting them for display. Learn why `new Date()` can silently fail, how to detect invalid dates with `Number.isNaN(date.getTime())`, and prevent "Invalid Date" from appearing in your UI.
 
+- **[PR Comment Lesson: Use String.raw for Regex Pattern Strings](./pr-comment-string-raw-regex-readability.md)** - Learn when regex patterns are represented as strings, why escaped backslashes hurt readability, and how `String.raw` improves maintainability and review clarity.
+
 ### Topics to Cover
 
 - Modern JavaScript (ES6+) features and patterns
