@@ -18,6 +18,7 @@ This section captures actionable insights from real-world development, organized
 
 - **[API Contract Correctness](api-contract-correctness.md)** - Ensuring operations return accurate results. Learn why silent failures are dangerous, how to verify database operations, when to use `.executeTakeFirstOrThrow()`, and best practices for error handling in data layers.
 - **[Database Repository Patterns](database-repository-patterns.md)** - Essential patterns for database repositories including soft deletes, timestamp handling, and defense-in-depth security. Learn why every query must filter soft-deleted records and when to use database-side vs application-side timestamps.
+- **[Audit Logging Patterns](audit-logging-patterns.md)** - Complete guide to implementing audit trails using database triggers and session context. Learn why transactions and audit context are critical, how to avoid NULL audit logs, and patterns for compliance-ready logging.
 
 ## User Experience (UX)
 
@@ -60,6 +61,9 @@ Condensed lessons from code reviews:
 - Error handling patterns
 - Repository layer best practices
 - Silent failure prevention
+- Audit logging and compliance
+- Transaction patterns and isolation
+- Database context management
 
 ### UI/UX Patterns
 
@@ -112,6 +116,7 @@ Common patterns from PR reviews:
 4. **Progressive Disclosure**: Build features completely before exposing them to users
 5. **API Contract Accuracy**: Operations must return results that reflect what actually happened; use `.executeTakeFirstOrThrow()` for updates/deletes that require a match
 6. **Consistent Error Handling**: If reads throw on missing records, writes should too; maintain consistent patterns across the codebase
+7. **Audit Context**: Wrap data modifications in transactions and set audit context before operations; without it, audit logs capture NULL for user_id, request_id, and trace_id
 
 ---
 
