@@ -16,6 +16,7 @@ This section covers React fundamentals and advanced patterns discovered through 
 - [Dashboard Metrics Component Design](dashboard-metrics-component-design.md) - Best practices for designing data-intensive dashboard components with metrics, formatting, and accessibility
 - [Implicit vs Explicit Client Components](implicit-vs-explicit-client-components.md) - When and why to add `'use client'` in Next.js App Router
 - [Server-First List Pages](server-first-list-pages.md) - Keep list pages as Server Components; extract only interactive pieces into small Client children
+- [Link-as-Button Component Pitfalls](link-as-button-component-pitfalls.md) - Secure defaults, disabled state gaps, and API parity when wrapping `<a>` as a button in design systems
 
 ### Topics to Cover
 
