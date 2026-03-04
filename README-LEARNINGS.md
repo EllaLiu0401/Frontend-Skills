@@ -85,6 +85,25 @@ hasAccepted = user.acceptedAt !== null &&
 
 ---
 
+### 5. [Full-Stack Field Wiring](./full-stack-field-wiring.md)
+**Core Concept**: When adding a new field to a data model, wire it through every layer (DB → types → middleware → context → tests) in one pass.
+
+**Key Takeaways**:
+- Don't stop at the database layer — if middleware already fetches the data, pass it through
+- Monorepo type exports must be complete: definition → barrel file → package entry point
+- Test all variants of enum/union types to prevent accidental narrowing
+- Impersonation/context-switching must mirror all field overrides
+- Build caches can mask missing exports — force rebuild when adding new types
+
+**Checklist**:
+- Migration adds the column
+- Generated types include the field
+- Shared package exports the new type from `index.ts`
+- Auth context / middleware passes the field through
+- Test factory covers all enum variants
+
+---
+
 ## Core Principles Learned
 
 ### 1. Single Source of Truth
