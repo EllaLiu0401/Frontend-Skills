@@ -11,6 +11,7 @@ This section focuses on making applications accessible to all users, including t
 ### Guides
 
 - **[Semantic HTML: Heading Hierarchy](semantic-html-heading-hierarchy.md)** - Master proper heading structure (`<h1>` through `<h6>`). Learn why pages should have exactly one h1, how screen readers use headings for navigation, and how to build accessible React components with correct heading levels.
+- **[Custom Dropdown ARIA Patterns](custom-dropdown-aria-patterns.md)** - Deep dive into building accessible custom select/combobox components. Covers `role="combobox"` vs `role="listbox"`, `aria-activedescendant` composite focus pattern, ARIA required-children rules, keyboard navigation checklist, and WCAG Focus Visible requirements.
 
 ### Topics
 
