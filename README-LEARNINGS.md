@@ -104,6 +104,45 @@ hasAccepted = user.acceptedAt !== null &&
 
 ---
 
+### 6. [Custom Combobox Accessibility Patterns](./custom-combobox-accessibility-patterns.md)
+**Core Concept**: Building accessible custom combobox/select components that pass WCAG 2.1 AA and behave correctly for keyboard and screen reader users.
+
+**Key Takeaways**:
+- Correct ARIA role hierarchy: `combobox` → `listbox` → `option`
+- `aria-label` must never be `undefined` at runtime — always provide a fallback
+- Icon-only buttons (clear, chevron) require `aria-label` + `aria-hidden` on the icon
+- Touch targets must be ≥44px — use `min-w-11 self-stretch` inside flex containers
+- Moving a visual class from a focusable to a non-focusable element silently breaks `:focus` — use `focus-within` on the wrapper instead
+- `scrollIntoView` should only fire on keyboard navigation, not mouse hover — track source with a `ref`
+
+**Patterns Covered**:
+- ARIA combobox structure (searchable and non-searchable variants)
+- `focus-within` wrapper + `focus:outline-none` inner button (no double rings)
+- Touch target in flex containers (`self-stretch` + `min-w-11`)
+- `lastNavSourceRef` pattern for keyboard-only scroll
+- DOM refactor regression checklist
+- PR review response templates (Fixed / Acknowledged / Intentional)
+
+---
+
+### 7. [Terraform Shared Resource Safety](./terraform-shared-resources-safety.md)
+**Core Concept**: Running `terraform apply` on shared infrastructure (e.g. a dev identity provider tenant) can silently break CI for everyone if critical resources are destroyed and not fully recreated.
+
+**Key Takeaways**:
+- M2M Client + Client Grant must both exist — client without grant = 403
+- `terraform apply` on shared tenants is a deployment, not a local operation
+- Always run `terraform plan` first and inspect for destroy/recreate (`-/+`)
+- Use `lifecycle { prevent_destroy = true }` on critical resources to turn silent destruction into loud errors
+- If all CI suddenly fails, check if someone recently ran `terraform apply`
+
+**Patterns Covered**:
+- `prevent_destroy` lifecycle guard
+- Plan-before-apply workflow
+- Shared vs isolated environment awareness
+- OAuth2 M2M client + grant dependency model
+
+---
+
 ## Core Principles Learned
 
 ### 1. Single Source of Truth
