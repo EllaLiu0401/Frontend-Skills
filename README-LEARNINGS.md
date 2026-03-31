@@ -390,6 +390,23 @@ if (input !== apiData.current) showWarning();
 
 ---
 
+### 16. [Breaking Changes, Semver, and Accessible Toggle Components](./breaking-changes-semver-and-a11y-toggle.md)
+**Core Concept**: Component refactors that remove public props are breaking API changes requiring major version bumps.
+
+**Key Takeaways**:
+- Removed/renamed props = major version bump (semver contract)
+- `role="switch"` is required for toggle components (pure a11y, zero visual impact)
+- `amannn/action-semantic-pull-request` needs `headerPattern` override to support `!` notation
+- Always quote regex patterns in YAML (`:` breaks parsing)
+- PR title validation and release pipeline are independent — verify both support breaking change syntax
+
+**Use Cases**:
+- Refactoring custom components to library wrappers
+- Setting up CI/CD pipelines with Conventional Commits
+- Ensuring accessible form controls
+
+---
+
 ## Questions for Reflection
 
 1. Where else in your codebase could single source of truth pattern apply?
